@@ -24,6 +24,7 @@ public class ProductDaoImpl implements ProductDao {
     @Autowired
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
+
     @Override
     public Integer countProduct(ProductQueryParams productQueryParams) {
         String sql = "SELECT COUNT(*) FROM product WHERE 1=1";
