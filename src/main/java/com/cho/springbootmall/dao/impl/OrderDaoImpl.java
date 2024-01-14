@@ -66,7 +66,7 @@ public class OrderDaoImpl implements OrderDao {
                 "WHERE oi.order_id = :orderId";
 
         Map<String, Object> map = new HashMap<>();
-        map.put("Order", orderId);
+        map.put("orderId", orderId);
 
         List<OrderItem> orderItemList = namedParameterJdbcTemplate.query(sql, map, new OrderItemRowMapper());
 
@@ -93,7 +93,7 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public Integer createOrder(Integer userId, Integer totalAmount) {
         String sql = "INSERT INTO `order`(user_id, total_amount, created_date, last_modified_date) " +
-                "VALUES (:userId, :totalAmount, :createdDate, :lastModfiedDate)";
+                "VALUES (:userId, :totalAmount, :createdDate, :lastModifiedDate)";
 
         Map<String, Object> map = new HashMap<>();
         map.put("userId", userId);
@@ -124,15 +124,13 @@ public class OrderDaoImpl implements OrderDao {
             OrderItem orderItem = orderItemList.get(i);
 
             parameterSources[i] = new MapSqlParameterSource();
-            parameterSources[i].addValue("orderItem", orderId);
+            parameterSources[i].addValue("orderId", orderId);
             parameterSources[i].addValue("productId", orderItem.getProductId());
             parameterSources[i].addValue("quantity", orderItem.getQuantity());
             parameterSources[i].addValue("amount", orderItem.getAmount());
 
-            namedParameterJdbcTemplate.batchUpdate(sql, parameterSources);
-
         }
-
+        namedParameterJdbcTemplate.batchUpdate(sql, parameterSources);
     }
 
     private String addFilteringSql(String sql, Map<String, Object> map, OrderQueryParams orderQueryParams) {
