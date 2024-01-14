@@ -66,6 +66,7 @@ public class OrderDaoImpl implements OrderDao {
 
         Date now = new Date();
         map.put("createdDate", now);
+
         map.put("lastModifiedDate", now);
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
